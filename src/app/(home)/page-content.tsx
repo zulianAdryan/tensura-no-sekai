@@ -13,6 +13,8 @@ export interface PageContentProps {
 const PageContent = ({ data }: PageContentProps) => {
   const [animationComplete, setAnimationComplete] = useState<boolean>(false);
 
+  console.log("DATA", data);
+
   return (
     <AnimatePresence>
       {!animationComplete ? (

@@ -1,6 +1,6 @@
 import Video from "@/components/Video";
-import { useAnimate, motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import { useAnimate, motion, useAnimation } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 
 const DISCLAIMER_TRANSITION = {
   delay: 0.85,
@@ -13,7 +13,25 @@ interface PageIntroProps {
 
 const PageIntro = ({ onAnimationComplete }: PageIntroProps) => {
   const [disclaimerRef, disclaimer] = useAnimate();
+  const controls = useAnimation();
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      const handleTimeUpdate = () => {
+        if (videoElement.currentTime >= 11) {
+          controls.start({ scale: 6, opacity: 0 }, { duration: 1.5 });
+        }
+      };
+
+      videoElement.addEventListener("timeupdate", handleTimeUpdate);
+
+      return () => {
+        videoElement.removeEventListener("timeupdate", handleTimeUpdate);
+      };
+    }
+  }, [controls]);
 
   const handleVideo = () => {
     return {
@@ -75,20 +93,24 @@ const PageIntro = ({ onAnimationComplete }: PageIntroProps) => {
         </div>
       </motion.div>
 
-      <div className="absolute inset-0 grid place-content-center">
+      <motion.div
+        className="absolute inset-0 grid place-content-center"
+        initial={{ scale: 1 }}
+        animate={controls}
+      >
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 w-full h-full bg-transparent shadow-[inset_0px_0px_10px_10px_#000]" />
           <Video
             className="w-screen h-full object-cover"
             ref={videoRef}
-            src="/1080.mp4"
+            src="/intro.mp4"
             type="video/mp4"
             // autoPlay={true}
             muted
             onEnded={handleVideo().stop}
           />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
