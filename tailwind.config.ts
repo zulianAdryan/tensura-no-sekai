@@ -15,13 +15,23 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1536px",
       },
     },
     extend: {
+      screens: {
+        "3xl": "1600px",
+        desktop: "1600px",
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         notojp: ["var(--font-notojp)"],
+        cherry: ["var(--font-cherry)"],
+        coiny: ["var(--font-coiny)"],
+        mochiy: ["var(--font-mochiy)"],
+        heading: ["var(--font-cherry)"],
+        desc: ["var(--font-mochiy)"],
+        text: ["var(--font-notojp)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -79,7 +89,10 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@designbycode/tailwindcss-text-shadow"),
+  ],
 } satisfies Config;
 
 export default config;
