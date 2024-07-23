@@ -1,4 +1,5 @@
 import Video from "@/components/Video";
+import { VIDEO_SOURCE } from "@/constants";
 import { useAnimate, motion, useAnimation } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
@@ -21,8 +22,9 @@ const PageIntro = ({ onAnimationComplete }: PageIntroProps) => {
     if (videoElement) {
       const handleTimeUpdate = () => {
         if (videoElement.currentTime >= 11) {
-          controls.start({ scale: 6, opacity: 0 }, { duration: 1.5 });
+          controls.start({ scale: 7, opacity: 0 }, { duration: 0.55 });
         }
+        // console.log("time", videoElement.currentTime);
       };
 
       videoElement.addEventListener("timeupdate", handleTimeUpdate);
@@ -50,14 +52,12 @@ const PageIntro = ({ onAnimationComplete }: PageIntroProps) => {
       stop: () => {
         if (videoRef.current) {
           videoRef.current.pause();
+          videoRef.current.currentTime = 0;
         }
-        // setAnimationComplete(true);
         onAnimationComplete();
       },
     };
   };
-
-  //   console.log({ animationComplete });
 
   return (
     <section className="bg-black relative w-screen h-screen grid place-content-center overflow-hidden">
@@ -103,8 +103,8 @@ const PageIntro = ({ onAnimationComplete }: PageIntroProps) => {
           <Video
             className="w-screen h-full object-cover"
             ref={videoRef}
-            src="/intro.mp4"
-            type="video/mp4"
+            src={VIDEO_SOURCE.INTRO.src}
+            type={VIDEO_SOURCE.INTRO.type}
             // autoPlay={true}
             muted
             onEnded={handleVideo().stop}
