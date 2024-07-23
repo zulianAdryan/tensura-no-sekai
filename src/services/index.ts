@@ -11,7 +11,7 @@ export const getInfo = cache(async () => {
     notFound();
   }
 
-  const data: AnimeFull = res.data;
+  const data: AnimeFull = res?.data.data;
 
   return data;
 });
