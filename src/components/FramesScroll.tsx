@@ -2,13 +2,18 @@
 
 import { cn } from "@/lib/utils";
 import { ClassValue } from "clsx";
+import { useScroll, motion, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 const FramesScroll = ({ className }: { className?: ClassValue }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
-  const scrollTopRef = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const TOTAL_FRAMES = 278;
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+  });
+  const yProgress = useTransform(scrollYProgress, [0, 1], [1, TOTAL_FRAMES]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -62,33 +67,19 @@ const FramesScroll = ({ className }: { className?: ClassValue }) => {
       }
     };
 
-    const handleScroll = () => {
-      scrollTopRef.current = document.documentElement.scrollTop;
-      const maxScrollDistance =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const fractionScrolled = scrollTopRef.current / maxScrollDistance;
-
-      const imageIndex = Math.min(
-        TOTAL_FRAMES,
-        Math.ceil(fractionScrolled * TOTAL_FRAMES)
-      );
-      if (imageIndex < TOTAL_FRAMES) {
-        requestAnimationFrame(() => updateImage(imageIndex));
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
     preloadImages();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+
+    yProgress.on("change", (frames) =>
+      requestAnimationFrame(() => updateImage(parseInt(frames.toString())))
+    );
   }, []);
 
   return (
-    <div className={cn(className)}>
+    <motion.div ref={containerRef} className={cn(className)}>
       <div className="sticky top-0 bg-cyan-100 overflow-hidden">
         <canvas ref={canvasRef} className="" />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
