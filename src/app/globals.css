@@ -6,6 +6,10 @@
   .text-hover {
     @apply text-sky-200 opacity-90;
   }
+
+  .text-slime {
+    @apply font-heading leading-none text-sky-500/50 text-shadow text-shadow-x-md text-shadow-y-sm text-shadow-cyan-100;
+  }
 }
 
 @layer base {
