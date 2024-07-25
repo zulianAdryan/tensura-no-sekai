@@ -12,6 +12,7 @@ const FramesScroll = ({ className }: { className?: ClassValue }) => {
   const TOTAL_FRAMES = 278;
   const { scrollYProgress } = useScroll({
     target: containerRef,
+    offset: ["-100vh", "end end"],
   });
   const yProgress = useTransform(scrollYProgress, [0, 1], [1, TOTAL_FRAMES]);
 
@@ -76,8 +77,8 @@ const FramesScroll = ({ className }: { className?: ClassValue }) => {
 
   return (
     <motion.div ref={containerRef} className={cn(className)}>
-      <div className="sticky top-0 bg-cyan-100 overflow-hidden">
-        <canvas ref={canvasRef} className="" />
+      <div className="sticky top-0 bg-black overflow-hidden">
+        <canvas ref={canvasRef} className="" aria-label="scroll-background" />
       </div>
     </motion.div>
   );
