@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, useInView, motion, useAnimate } from "framer-motion";
 import { AnimeFull } from "./type";
 import Video from "@/components/Video";
