@@ -18,7 +18,7 @@ const WrapperRevealer = ({
 
   return (
     <motion.section
-      className={cn(className)}
+      className={cn("bg-black", className)}
       ref={ref}
       initial={{ opacity: 0 }}
       animate={{ opacity: isInView ? 1 : 0 }}
